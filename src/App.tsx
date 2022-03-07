@@ -36,7 +36,7 @@ const GlobalStyles = createGlobalStyle`
 function App() {
   const { t } = useTranslation();
 
-  const { login, logout, token, isAuthenticated } = useAuth()
+  const { login, logout, token, isAuthenticated, movies } = useAuth()
 
   return (
     <AuthContext.Provider value={{ token, login, logout, isAuthenticated }}>
@@ -48,7 +48,7 @@ function App() {
             <RequireAuth>
               <MainPage />
             </RequireAuth>
-          } />	
+          } />
         </Routes>
       </BrowserRouter>
     </AuthContext.Provider>
