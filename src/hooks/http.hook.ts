@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useCallback } from "react"
 
 export const useHttp = () => {
@@ -11,18 +12,18 @@ export const useHttp = () => {
                 headers['Content-Type'] = 'application/json';
             }
 
-            const response = await fetch(url, {method, body, headers})
-            console.log(response);
-            const data = await response.json();
-
-
-            if(!response.ok) {
-                throw new Error(data.message)
-            }
-
-            return data;
+            //const response = await fetch(url, {method, body, headers})
+            const response = await axios({
+                url: url,
+                method: method,
+                data: body,
+                headers: headers
+            }).catch(error => {
+                throw new Error(error);
+            })
+            
+            return response.data;
         } catch (e: any) {
-            console.log('catch e: \n', e.message);
             throw e;
         }
     }, [])
