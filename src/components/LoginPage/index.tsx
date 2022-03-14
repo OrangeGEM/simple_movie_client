@@ -1,11 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Container, ContentContainer, InputButton, InputContainer, InputField } from './styled';
 import { useHttp } from '../../hooks/http.hook';
 import axios from 'axios';
+import { AuthContext } from '../../assets/context/auth.context';
+import { useNavigate } from 'react-router-dom';
 
 
 export default function LoginPage() {
   const { request } = useHttp();
+  const authContext = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const PROXY_URL = process.env.REACT_APP_PROXY_URL;
 
@@ -27,8 +31,13 @@ export default function LoginPage() {
     console.log(data);
 
     const req = await request(PROXY_URL, 'POST', data)
-    req.token_type = "Bearer"
-    localStorage.setItem('token', `${req.token_type} ${req.access_token}`)
+    if(req) {
+      req.token_type = "Bearer"
+      const token = `${req.token_type} ${req.access_token}`;
+      localStorage.setItem('token', token)
+      authContext.login(token);
+      navigate('/main')
+    }
   }
 
   return (

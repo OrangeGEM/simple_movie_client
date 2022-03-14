@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import i18n from 'i18next';
 import { useTranslation, initReactI18next } from "react-i18next";
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import LoginPage from './components/LoginPage';
 import { createGlobalStyle } from 'styled-components';
+import { useAuth } from './assets/hooks/auth.hook';
+import { AuthContext } from './assets/context/auth.context';
+import { RequireAuth } from './assets/hoc/RequireAuth';
+import MainPage from './components/MainPage';
 
 i18n
   .use(initReactI18next)
@@ -31,14 +35,23 @@ const GlobalStyles = createGlobalStyle`
 
 function App() {
   const { t } = useTranslation();
-  return (
-    <BrowserRouter>
-      <GlobalStyles />
 
-      <Routes>
-        <Route path="/" element={<LoginPage />} />
-      </Routes>
-    </BrowserRouter>
+  const { login, logout, token, isAuthenticated } = useAuth()
+
+  return (
+    <AuthContext.Provider value={{ token, login, logout, isAuthenticated }}>
+      <BrowserRouter>
+        <GlobalStyles />
+        <Routes>
+          <Route path="/" element={<LoginPage />} />
+          <Route path="/main" element={
+            <RequireAuth>
+              <MainPage />
+            </RequireAuth>
+          } />	
+        </Routes>
+      </BrowserRouter>
+    </AuthContext.Provider>
   );
 }
 
