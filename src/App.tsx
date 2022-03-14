@@ -8,6 +8,7 @@ import { useAuth } from './hooks/auth.hook';
 import { AuthContext } from './assets/context/auth.context';
 import { RequireAuth } from './assets/hoc/RequireAuth';
 import MainPage from './components/MainPage';
+import Movie from './components/MainPage/Movie';
 
 i18n
   .use(initReactI18next)
@@ -49,6 +50,7 @@ function App() {
               <MainPage />
             </RequireAuth>
           } />
+          <Route path="/movie" element={<Movie />} />
         </Routes>
       </BrowserRouter>
     </AuthContext.Provider>

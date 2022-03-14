@@ -10,10 +10,12 @@ export const Container = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
+    margin-bottom: 15px;
 `;
 
 export const Content = styled.div`
-    min-width: 85%;
+    min-width: 100%;
     height: 100%;
 
     display: flex;
