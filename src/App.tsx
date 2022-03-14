@@ -1,15 +1,19 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import i18n from 'i18next';
 import { useTranslation, initReactI18next } from "react-i18next";
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import LoginPage from './components/LoginPage';
+import { createGlobalStyle } from 'styled-components';
+import { useAuth } from './assets/hooks/auth.hook';
+import { AuthContext } from './assets/context/auth.context';
+import { RequireAuth } from './assets/hoc/RequireAuth';
+import MainPage from './components/MainPage';
 
-
-i18n 
+i18n
   .use(initReactI18next)
   .init({
     resources: {
-      
+
     },
     lng: "en",
     "fallbackLng": "en",
@@ -18,16 +22,36 @@ i18n
     }
   });
 
+const GlobalStyles = createGlobalStyle`
+  body{
+    margin: 0;
+    padding: 0;
+    background-color: #d7d7d7;
+
+    min-width: 100vmin;
+    min-height: 100vh;
+  }
+`;
+
 function App() {
   const { t } = useTranslation();
+
+  const { login, logout, token, isAuthenticated } = useAuth()
+
   return (
-    <BrowserRouter>
-    <div className="App">
-      <Routes>
-        <Route path="/" element={ <LoginPage /> }/>
-      </Routes>
-    </div>
-    </BrowserRouter>
+    <AuthContext.Provider value={{ token, login, logout, isAuthenticated }}>
+      <BrowserRouter>
+        <GlobalStyles />
+        <Routes>
+          <Route path="/" element={<LoginPage />} />
+          <Route path="/main" element={
+            <RequireAuth>
+              <MainPage />
+            </RequireAuth>
+          } />	
+        </Routes>
+      </BrowserRouter>
+    </AuthContext.Provider>
   );
 }
 
