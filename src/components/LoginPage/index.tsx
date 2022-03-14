@@ -28,7 +28,6 @@ export default function LoginPage() {
         method: "POST"
       }
     }
-    console.log(data);
 
     const req = await request(PROXY_URL, 'POST', data)
     if(req) {
