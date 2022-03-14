@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { Container, ContentContainer, InputButton, InputContainer, InputField } from './styled';
-import { useHttp } from '../../assets/hooks/http.hook';
+import { useHttp } from '../../hooks/http.hook';
 import axios from 'axios';
 import { AuthContext } from '../../assets/context/auth.context';
 import { useNavigate } from 'react-router-dom';

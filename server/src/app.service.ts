@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import axios from 'axios';
 import { ProxifyDto } from 'dto/proxify.dto';
 
@@ -18,7 +18,11 @@ export class AppService {
         Authorization: proxifyDto.options.token || '',
         "Content-Type": "application/json"
       }
+    }).catch((error) => {
+      throw new HttpException("Unvalid credentials", HttpStatus.UNPROCESSABLE_ENTITY);
     })
+    
+
     return await request.data;
     
   }
