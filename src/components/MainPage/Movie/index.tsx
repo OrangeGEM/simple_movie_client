@@ -5,10 +5,9 @@ import { Container } from './styled';
 
 export default function Movie() {
     const location = useLocation();
-
+    console.log(location);
     //@ts-ignore
-    const movie = location.state.movie as MovieInterface;
-    
+    const movie = location.state as MovieInterface;
 
     return (
         <Container>
