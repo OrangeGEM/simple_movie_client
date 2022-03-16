@@ -5,6 +5,7 @@ import { AuthContext } from '../../assets/context/auth.context';
 import { useNavigate } from 'react-router-dom';
 
 import axios from 'axios';
+import { signInWithGoogle } from '../../services/firebase';
 
 export default function LoginPage() {
   const { request } = useHttp();
@@ -43,6 +44,20 @@ export default function LoginPage() {
     }
   }
 
+  async function handleSignInGoogle() {
+    const userData = await signInWithGoogle();
+    console.log(userData);
+    //@ts-ignore
+    const req = await request(`${process.env.REACT_APP_LOGIN_URL}/google`, 'POST', { token: userData.credential.idToken })
+
+    if(req) {
+      const token = `token ${req.user.token}`
+      localStorage.setItem('token', token)
+      authContext.login(token);
+      navigate('/main')
+    }
+  }
+
   return (
     <Container>
       <ContentContainer>
@@ -59,6 +74,7 @@ export default function LoginPage() {
 
           <InputButton name="login" type="submit" value="SIGN IN" />
           <InputButton name="register" type="submit" value="SIGN UP" />
+          <InputButton name="google" type="button" onClick={handleSignInGoogle} value="SIGN IN WITH GOOGLE" />
         </form>
       </ContentContainer>
     </Container>

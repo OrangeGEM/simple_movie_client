@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import i18n from 'i18next';
 import { useTranslation, initReactI18next } from "react-i18next";
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
