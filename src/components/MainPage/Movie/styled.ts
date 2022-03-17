@@ -20,19 +20,19 @@ export const Content = styled.div`
 export const DescriptionContainer = styled.div`
     font-weight: bold;
     font-size: 22px;
-    padding-left: 50px;
-
     width:100%;
 
     display: flex;
-    flex-direction: column;
-    justify-content: space-around;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
     outline: none;
 `;
 
 export const DescriptionItem = styled.div`
     display: flex;
     flex-direction: row;
+    padding-left: 10px;
 `;
 
 export const TitleText = styled.div`
@@ -40,7 +40,7 @@ export const TitleText = styled.div`
 `;
 
 export const DescriptionText = styled.div`
-    max-width: 80%;
+    max-width: auto;
 `;
 
 export const CastDescription = styled(Content)`
@@ -48,9 +48,10 @@ export const CastDescription = styled(Content)`
     font-weight: bold;
 `;
 
-export const RowContainer = styled.div`
+export const CastContainer = styled.div`
     display: flex;
     flex-direction: row;
+    align-items: center;
 `;
 
 export const InputButton = styled.input`
@@ -58,7 +59,9 @@ export const InputButton = styled.input`
     border: 0;
     border-radius: 21px;
 
-    width: 100%;
+    align-self: center;
+
+    min-width: 200px;
     height: 50px;
 
     background: #303030;
@@ -67,4 +70,19 @@ export const InputButton = styled.input`
     margin-top: 15px;
 
     cursor: pointer;
+`;
+
+export const MovieContainer = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+`;
+
+
+//reuse
+
+export const Column = styled.div`
+    display: flex;
+    flex-direction: column;
 `;

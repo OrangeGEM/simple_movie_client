@@ -5,5 +5,6 @@ export interface MovieInterface {
     year: string,
     duration: string,
     rating: string
-    cast: Array<any>;
+    cast: Array<string>;
+    urls: Array<string>;
 }
