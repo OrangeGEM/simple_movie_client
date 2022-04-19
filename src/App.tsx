@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import i18n from 'i18next';
 import { useTranslation, initReactI18next } from "react-i18next";
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
@@ -10,6 +10,7 @@ import { RequireAuth } from './assets/hoc/RequireAuth';
 import MainPage from './components/MainPage';
 import Movie from './components/MainPage/Movie';
 import Comments from './components/MainPage/Comments';
+import NotFoundPage from './components/NotFoundPage';
 
 i18n
   .use(initReactI18next)
@@ -53,6 +54,7 @@ function App() {
           } />
           <Route path="/movie" element={<Movie />} />
           <Route path="/comments" element={<Comments />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </BrowserRouter>
     </AuthContext.Provider>

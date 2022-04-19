@@ -7,7 +7,6 @@ import { Container, Content, InputContainer, InputItem, SubmitButton, SubmitText
 export default function Comments() {
     const location = useLocation();
     const movieId = location.state;
-    console.log(movieId);
     const { request } = useHttp();
 
     const [comments, setComments] = useState<Array<CommentsInterface>>([]);
@@ -54,7 +53,7 @@ export default function Comments() {
                 {
                     comments ? comments.map((item, id) => {
                         return (
-                            <TextContainer>
+                            <TextContainer key={id}>
                                 {item.message}
                             </TextContainer>
                         )
