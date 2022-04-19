@@ -9,6 +9,7 @@ import { AuthContext } from './assets/context/auth.context';
 import { RequireAuth } from './assets/hoc/RequireAuth';
 import MainPage from './components/MainPage';
 import Movie from './components/MainPage/Movie';
+import Comments from './components/MainPage/Comments';
 
 i18n
   .use(initReactI18next)
@@ -51,6 +52,7 @@ function App() {
             </RequireAuth>
           } />
           <Route path="/movie" element={<Movie />} />
+          <Route path="/comments" element={<Comments />} />
         </Routes>
       </BrowserRouter>
     </AuthContext.Provider>
