@@ -1,5 +1,5 @@
 import { useCallback, useContext, useLayoutEffect, useState } from "react";
-import { AuthContext } from "../context/auth.context";
+import { AuthContext } from "../assets/context/auth.context";
 import { useHttp } from "./http.hook"
 
 export const useAuth = () => {
@@ -22,23 +22,21 @@ export const useAuth = () => {
         async function verifyUser() {
             try {
                 const localAccessToken = localStorage.getItem('token');
-                if(localAccessToken) {
-                    const data = await request( process.env.REACT_APP_PROXY_URL, "POST", {
-                        data: {},
-                        options: {
-                            api_url: "https://sarzhevsky.com/movies-api/Movies",
-                            method: "GET",
-                            token: localAccessToken
-                        }
+                console.log(localAccessToken);
+                if (localAccessToken) {
+                    const data = await request(process.env.REACT_APP_GET_USER_URL, "GET", {}, {
+                        Authorization: localAccessToken
                     })
-    
-                    if(data) {
+
+                    if (data) {
                         login(localAccessToken);
+                    } else {
+                        logout();
                     }
                 } else {
                     return null;
                 }
-            } catch(e) {
+            } catch (e) {
                 console.log(e);
                 throw e;
             }

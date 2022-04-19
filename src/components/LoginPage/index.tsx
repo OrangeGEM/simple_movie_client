@@ -1,10 +1,11 @@
 import React, { useContext } from 'react';
 import { Container, ContentContainer, InputButton, InputContainer, InputField } from './styled';
 import { useHttp } from '../../hooks/http.hook';
-import axios from 'axios';
 import { AuthContext } from '../../assets/context/auth.context';
 import { useNavigate } from 'react-router-dom';
 
+import axios from 'axios';
+import { signInWithGoogle } from '../../services/firebase';
 
 export default function LoginPage() {
   const { request } = useHttp();
@@ -17,23 +18,40 @@ export default function LoginPage() {
     event.preventDefault();
     const target = event.currentTarget;
 
+    //@ts-ignore
+    const submitter = event.nativeEvent.submitter.name;
+
     const data = {
-      data: {
-        username: target.username.value,
-        password: target.password.value,
-        grant_type: "password"
-      },
-      options: {
-        api_url: "https://sarzhevsky.com/movies-api/Login",
-        method: "POST"
+      email: target.email.value,
+      password: target.password.value,
+    }
+
+    if (submitter === 'login') {
+      const req = await request(process.env.REACT_APP_LOGIN_URL, 'POST', data)
+      console.log(req.user);
+
+      if (req) {
+        const token = `token ${req.user.token}`
+        localStorage.setItem('token', token)
+        authContext.login(token);
+        navigate('/main')
+      }
+    } else {
+      const req = await request(process.env.REACT_APP_REGISTER_URL, 'POST', data)
+      if(req) {
+        console.log('Registred');
       }
     }
-    console.log(data);
+  }
 
-    const req = await request(PROXY_URL, 'POST', data)
+  async function handleSignInGoogle() {
+    const userData = await signInWithGoogle();
+    console.log(userData);
+    //@ts-ignore
+    const req = await request(`${process.env.REACT_APP_LOGIN_URL}/google`, 'POST', { token: userData.credential.idToken })
+
     if(req) {
-      req.token_type = "Bearer"
-      const token = `${req.token_type} ${req.access_token}`;
+      const token = `token ${req.user.token}`
       localStorage.setItem('token', token)
       authContext.login(token);
       navigate('/main')
@@ -46,7 +64,7 @@ export default function LoginPage() {
         <form onSubmit={(event) => handleSubmit(event)}>
           <InputContainer>
             Username:
-            <InputField name="username" type="name" />
+            <InputField name="email" type="name" />
           </InputContainer>
 
           <InputContainer>
@@ -54,7 +72,9 @@ export default function LoginPage() {
             <InputField name="password" type="password" />
           </InputContainer>
 
-          <InputButton name="submit" type="submit" value="Sign in" />
+          <InputButton name="login" type="submit" value="SIGN IN" />
+          <InputButton name="register" type="submit" value="SIGN UP" />
+          <InputButton name="google" type="button" onClick={handleSignInGoogle} value="SIGN IN WITH GOOGLE" />
         </form>
       </ContentContainer>
     </Container>
